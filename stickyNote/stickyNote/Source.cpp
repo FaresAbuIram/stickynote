@@ -8,6 +8,7 @@ Amir ALtakroori and Faris Abu 3ram
 #include<fstream>
 #include<string>
 #include <ctime>
+
 using namespace std;
 
 void printUserMenu()
@@ -27,11 +28,7 @@ void pressEnter()
 		cout << "Press Enter to return to main menu : ";
 		cin.ignore();
 		cin.get(Enter);
-		if(Enter=='\n')
-			return;
-
-
-	}while(1);
+	}while(Enter!='\n');
 }
 
 // This function will implement the first option in main menu
@@ -121,11 +118,7 @@ void addNewNote()
 		File.open(fullName, ios_base::app);//ios_base::app use to overwrite the note into the file
 		File << note.toStringNote();
 		File.close();
-
-
 	}
-
-
 }
 
 int main()
