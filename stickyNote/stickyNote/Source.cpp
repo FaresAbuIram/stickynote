@@ -1,3 +1,4 @@
+
 /*This project was created to creat file carries user's name
 so, The user can write notes inside it with the time it was written
 
@@ -162,7 +163,7 @@ int main()
 
 				*/
 				string firstName, lastName;//user's full name
-				cout << "Let’s add a new note ... \n";
+				cout << "Letï¿½s add a new note ... \n";
 				cout << "Please enter your full name first:  "; cin >> firstName >> lastName;
 				string fullName = firstName + lastName + ".txt";
 				ifstream file(fullName);
@@ -174,7 +175,7 @@ int main()
 				else
 				{
 
-					cout << "Your record is found, I’m now opening your file ….\nReady!\nPlease enter your note :";
+					cout << "Your record is found, Iï¿½m now opening your file ï¿½.\nReady!\nPlease enter your note :";
 					cin.ignore();
 					string newNote;
 					cin.ignore();
