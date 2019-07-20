@@ -23,10 +23,59 @@ void printUserMenu()
 			 << "Please, enter your choice: ";
 }
 
+// This function will implement the first option in main menu
+void addNewUser() 
+{
+	/*
+				This fuction let the user to add new user
+				by entering first name and last name.
+				Adding new user means open a new file in specific directory.
+				Project guarantee that there is a unique user.
+				*/
+
+				cout << "Welcome aboard new user!\nPlease let me know your first name: ";
+				string firstName;				cin >> firstName;
+
+				cout << "Great " << firstName << ", now please enter your last name: ";
+				string lastName;				cin >> lastName;
+
+				string fullName = firstName + "" + lastName;
+				ifstream inUserFile (fullName);
+
+				if (!inUserFile) // there is no file have the same user name
+					ofstream outUserFile (fullName); // just to open new file have the same name of user
+				else // user name was used
+					cout << "\n\n" << fullName << " was used!\n please try another name or write your notes directly!\n";
+
+}
+
 string monthString[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };// array of string contains the  months
 
+/*void getTime(int& year, int& month, int& day, int& hour, int& mins)
+{
+	// to claculate the current time
 
-void getTime(int& year, int& month, int& day, int& hour, int& mins)
+	time_t Time;//The time_t datatype is a data type in the ISO C library defined for storing system time values
+	time(&Time);//Get the current calendar time as a value of type time_t.
+	tm TM = *localtime(&Time);//Structure containing a calendar date and time broken down into its components.
+
+	year = TM.tm_year + 1900;
+	month = TM.tm_mon;
+	day = TM.tm_mday;
+	hour = TM.tm_hour;
+	mins = TM.tm_min;
+
+}*/
+
+class  Note
+{
+	// class to add new note
+private:
+	string note;//a note that user add it
+
+public:
+	Note() {}// default constructure
+	void getTime(int& year, int& month, int& day, int& hour, int& mins)
 {
 	// to claculate the current time
 
@@ -42,14 +91,6 @@ void getTime(int& year, int& month, int& day, int& hour, int& mins)
 
 }
 
-class  Note
-{
-	// class to add new note
-private:
-	string note;//a note that user add it
-
-public:
-	Note() {}// default constructure
 	Note(string note)
 	 {
 		//constructure was take note as  a parameters
@@ -86,21 +127,7 @@ int main()
 				Adding new user means open a new file in specific directory.
 				Project guarantee that there is a unique user.
 				*/
-
-				cout << "Welcome aboard new user!\nPlease let me know your first name: ";
-				string firstName;				cin >> firstName;
-
-				cout << "Great " << firstName << ", now please enter your last name: ";
-				string lastName;				cin >> lastName;
-
-				string fullName = firstName + "" + lastName;
-				ifstream inUserFile (fullName);
-
-				if (!inUserFile) // there is no file have the same user name
-					ofstream outUserFile (fullName); // just to open new file have the same name of user
-				else // user name was used
-					cout << "\n\n" << fullName << " was used!\n please try another name or write your notes directly!\n";
-
+				addNewUser();
 				system("pause");
 
 			}
