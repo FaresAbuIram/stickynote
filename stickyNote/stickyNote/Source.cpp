@@ -78,7 +78,6 @@ private:
 	}
 
 public:
-
 	Note(string note)
 	{
 		//constructure was take note as  a parameters
