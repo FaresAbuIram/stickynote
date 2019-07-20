@@ -22,9 +22,22 @@ void printUserMenu()
 			 << "3 - View notes for a specific user \n 4 - Exit \n\n"
 			 << "Please, enter your choice: ";
 }
+void pressEnter()
+{
+    char Enter ;
+    do
+    {
+            cout << "Press Enter to return to main menu : ";
+            cin.ignore();
+            cin.get(Enter);
+            if(Enter=='\n')
+                return;
 
+
+    }while(1);
+}
 // This function will implement the first option in main menu
-void addNewUser() 
+void addNewUser()
 {
 	/*
 				This fuction let the user to add new user
@@ -49,65 +62,82 @@ void addNewUser()
 
 }
 
-string monthString[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };// array of string contains the  months
 
-/*void getTime(int& year, int& month, int& day, int& hour, int& mins)
-{
-	// to claculate the current time
-
-	time_t Time;//The time_t datatype is a data type in the ISO C library defined for storing system time values
-	time(&Time);//Get the current calendar time as a value of type time_t.
-	tm TM = *localtime(&Time);//Structure containing a calendar date and time broken down into its components.
-
-	year = TM.tm_year + 1900;
-	month = TM.tm_mon;
-	day = TM.tm_mday;
-	hour = TM.tm_hour;
-	mins = TM.tm_min;
-
-}*/
 
 class  Note
 {
-	// class to add new note
-private:
-	string note;//a note that user add it
+        // class to add new note
+    private:
+        string note;//a note that user add it
+        void getTime(int& year, int& month, int& day, int& hour, int& mins)
+        {
+                // to claculate the current time
 
-public:
-	Note() {}// default constructure
-	void getTime(int& year, int& month, int& day, int& hour, int& mins)
-{
-	// to claculate the current time
+                time_t Time;//The time_t datatype is a data type in the ISO C library defined for storing system time values
+                time(&Time);//Get the current calendar time as a value of type time_t.
+                tm TM = *localtime(&Time);//Structure containing a calendar date and time broken down into its components.
 
-	time_t Time;//The time_t datatype is a data type in the ISO C library defined for storing system time values
-	time(&Time);//Get the current calendar time as a value of type time_t.
-	tm TM = *localtime(&Time);//Structure containing a calendar date and time broken down into its components.
+                year = TM.tm_year + 1900;
+                month = TM.tm_mon;
+                day = TM.tm_mday;
+                hour = TM.tm_hour;
+                mins = TM.tm_min;
 
-	year = TM.tm_year + 1900;
-	month = TM.tm_mon;
-	day = TM.tm_mday;
-	hour = TM.tm_hour;
-	mins = TM.tm_min;
+        }
 
-}
+    public:
+        Note() {}// default constructure
 
-	Note(string note)
-	 {
-		//constructure was take note as  a parameters
-		this->note = note;
-	 }
 
-	string toStringNote()
-	{
-		// to return a note and time  in best way
-		int year, month, day, hour, mins;
-		getTime(year, month, day, hour, mins);
-		return (to_string(day) + '/' + to_string(month) + '/' + to_string(year) + " " + to_string(hour) + ':' + to_string(mins)  +':'+ "\n"+ note+'\n'+'\n' );
-	}
+        Note(string note)
+        {
+                //constructure was take note as  a parameters
+                this->note = note;
+        }
+
+        string toStringNote()
+        {
+                // to return a note and time  in best way
+                int year, month, day, hour, mins;
+                getTime(year, month, day, hour, mins);
+                return (to_string(day) + '/' + to_string(month) + '/' + to_string(year) + " " + to_string(hour) + ':' + to_string(mins)  +':'+ "\n"+ note+'\n'+'\n' );
+        }
 
 
 
 };
+void addNewNote()
+{
+                string firstName, lastName;//user's full name
+                cout << "Let’s add a new note ... \n";
+                cout << "Please enter your full name first:  "; cin >> firstName >> lastName;
+                string fullName = firstName + lastName ;
+                ifstream file(fullName);
+                if (!file)
+                {
+                        cout << "Oh! Sorry the user name was not found, please check the name again and if this is your first time here, please go ahead and create a new user from the main menu ..." << endl;
+
+                }
+                else
+                {
+
+                        cout << "Your record is found, I’m now opening your file ….\nReady!\nPlease enter your note :";
+                        string newNote;
+                        cin.ignore();
+                        getline(cin, newNote);
+                        Note note(newNote);
+                        ofstream File;
+                        File.open(fullName, ios_base::app);//ios_base::app use to overwrite the note into the file
+                        File << note.toStringNote();
+                        File.close();
+
+
+                }
+
+
+}
+
+
 
 int main()
 {
@@ -140,42 +170,9 @@ int main()
 				Adding new note means open a specific file depend on user name if exist or not .
 
 				*/
-			    string firstName, lastName;//user's full name
-                cout << "Let’s add a new note ... \n";
-                cout << "Please enter your full name first:  "; cin >> firstName >> lastName;
-                string fullName = firstName + lastName + ".txt";
-                ifstream file(fullName);
-                if (!file)
-                    {
-                        cout << "Oh! Sorry the user name was not found, please check the name again and if this is your first time here, please go ahead and create a new user from the main menu ..." << endl;
+				addNewNote();
+				pressEnter();
 
-                    }
-                else
-                    {
-
-                        cout << "Your record is found, I’m now opening your file ….\nReady!\nPlease enter your note :";
-                        cin.ignore();
-                        string newNote;
-                        cin.ignore();
-                        getline(cin, newNote);
-                        Note note(newNote);
-                        ofstream File;
-                        File.open(fullName, ios_base::app);
-                        File << note.toStringNote();
-                        File.close();
-
-
-                    }
-                cout << "Press Enter to return to main menu : ";
-                cin.ignore();
-                char ch;
-                cin.get(ch);
-                while(ch!='\n')
-                    {
-                        cin.ignore();
-                        cout << "Press Enter to return to main menu : ";
-                        cin.get(ch);
-                    }
 
 
 			}
