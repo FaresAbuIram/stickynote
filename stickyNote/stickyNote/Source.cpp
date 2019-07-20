@@ -41,7 +41,7 @@ void addNewUser()
 	Project guarantee that there is a unique user.
 	*/
 
-	cout << "Welcome aboard new user!\nPlease let me know your first name: ";
+	cout << "\nWelcome aboard new user!\nPlease let me know your first name: ";
 	string firstName;				cin >> firstName;
 
 	cout << "Great " << firstName << ", now please enter your last name: ";
@@ -102,12 +102,11 @@ void addNewNote()
 	ifstream file(fullName);
 	if (!file)
 	{
-		cout << "Oh! Sorry the user name was not found, please check the name again and if this is your first time here, please go ahead and create a new user from the main menu ..." << endl;
-
+		cout << "Oh! Sorry the user name was not found, please check the name again and if this is your first time here,"
+			 << "please go ahead and create a new user from the main menu ..." << endl;
 	}
 	else
 	{
-
 		cout << "Your record is found, I’m now opening your file ….\nReady!\nPlease enter your note :";
 		string newNote;
 		cin.ignore();
@@ -117,6 +116,34 @@ void addNewNote()
 		File.open(fullName, ios_base::app);//ios_base::app use to overwrite the note into the file
 		File << note.toStringNote();
 		File.close();
+	}
+}
+
+// This function will implement the third option in main menu
+void printAllNotes()
+{
+	cout << "Retrieve your notes? Absolutely! Please let know your full name first: ";
+
+	string firstName , lastName;
+	cin >> firstName >> lastName;
+
+	string fullName = firstName + "" + lastName;
+	ifstream inUserFile (fullName);
+
+	if (!inUserFile) // there is no file have the same user name
+		cout << "\n\n" << "User name: " << fullName << "was not found, please try diffrent user name!\n";
+	else // user name was found
+	{
+		cout << "Found it!\n"
+			 << "Here are your stored notes:\n"
+			 << "-------------\n";
+
+		string fileContents;
+		while (getline(inUserFile,fileContents))
+			cout << fileContents << endl;
+
+		cout << "-------------\n"
+			 << "Happy to serve you :)\n";
 	}
 }
 
@@ -155,10 +182,12 @@ int main()
 			break;
 		case 3:
 			{
-
+				printAllNotes();
+				pressEnter();
 			}
 			break;
 		case 4:
+
 			break;
 		}
 
