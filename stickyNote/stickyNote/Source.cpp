@@ -47,7 +47,7 @@ void addNewUser()
 	cout << "Great " << firstName << ", now please enter your last name: ";
 	string lastName;				cin >> lastName;
 
-	string fullName = firstName + "" + lastName;
+	string fullName = firstName + lastName;
 	ifstream inUserFile (fullName);
 
 	if (!inUserFile) // there is no file have the same user name
@@ -103,7 +103,6 @@ void addNewNote()
 	if (!file)
 	{
 		cout << "Oh! Sorry the user name was not found, please check the name again and if this is your first time here, please go ahead and create a new user from the main menu ..." << endl;
-
 	}
 	else
 	{
@@ -139,8 +138,7 @@ int main()
 				Project guarantee that there is a unique user.
 				*/
 				addNewUser();
-				system("pause");
-
+				pressEnter();
 			}
 			break;
 		case 2:
