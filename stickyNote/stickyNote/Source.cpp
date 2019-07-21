@@ -101,6 +101,58 @@ public:
 	}
 };
 
+class Password
+{
+private:
+	string userPassword;
+
+public:
+	Password (string receivedPassword)
+	{
+		userPassword = receivedPassword;
+	}
+
+	bool arePassworsSymmetry (string verifyPassword)
+	{
+		return (userPassword == verifyPassword);
+	}
+
+	void setUserPassword (string fullNameUser)
+	{
+		ofstream file;
+		file.open("UserName and Password", ios_base::app);//ios_base::app use to overwrite the note into the file
+		file << fullNameUser << endl << userPassword << endl;	
+	}
+
+	string getUserPassword(string fullNameUser)
+	{
+		ifstream inUserFile("UserName and Password");
+		string storedUserName, storedPassword;
+		while (getline(inUserFile,storedUserName))// we guarantee that there is userName and password already
+			if (storedUserName == fullNameUser )
+			{
+				getline(inUserFile,storedPassword);
+				return storedPassword;
+			}
+			return "";
+	}
+
+	void askPassword()
+	{
+		string userPassword , verifyPassword ;
+		do 
+		{
+			cout << "Please enter your password: ";
+			getline(cin,userPassword);
+			cout << "Please enter it again: ";
+			getline(cin,verifyPassword);
+		} while ((userPassword != verifyPassword));
+
+
+	}
+
+};
+
 void addNewNote()
 {
 	string firstName, lastName;//user's full name
@@ -111,7 +163,7 @@ void addNewNote()
 	if (!file)
 	{
 		cout << "Oh! Sorry the user name was not found, please check the name again and if this is your first time here,"
-			 << "please go ahead and create a new user from the main menu ..." << endl;
+			<< "please go ahead and create a new user from the main menu ..." << endl;
 
 	}
 	else
@@ -144,15 +196,15 @@ void printAllNotes()
 	else // user name was found
 	{
 		cout << "Found it!\n"
-			 << "Here are your stored notes:\n"
-			 << "-------------\n";
+			<< "Here are your stored notes:\n"
+			<< "-------------\n";
 
 		string fileContents;
 		while (getline(inUserFile,fileContents))
 			cout << fileContents << endl;
 
 		cout << "-------------\n"
-			 << "Happy to serve you :)\n";
+			<< "Happy to serve you :)\n";
 	}
 }
 
