@@ -11,6 +11,14 @@ Amir ALtakroori and Faris Abu 3ram
 
 using namespace std;
 
+//bool askForPassword()
+//{
+//	string userPassword , verifyPassword ;
+//	getline(cin,userPassword);
+//	getline(cin,verifyPassword);
+//}
+
+
 void printUserMenu()
 {
 	cout << "Welcome to the brand new Sticky Notes!\n\n"
@@ -152,6 +160,7 @@ int main()
 	int userChoice; // to control what is the option to user need to move it
 	do
 	{
+		system("color C5");
 		printUserMenu();
 
 		cin >> userChoice;
@@ -165,6 +174,7 @@ int main()
 				Adding new user means open a new file in specific directory.
 				Project guarantee that there is a unique user.
 				*/
+				system("color D6");
 				addNewUser();
 				pressEnter();
 			}
@@ -176,12 +186,14 @@ int main()
 				by entering first name and last name.
 				Adding new note means open a specific file depend on user name if exist or not .
 				*/
+				system("color F6");
 				addNewNote();
 				pressEnter();
 			}
 			break;
 		case 3:
 			{
+				system("color A6");
 				printAllNotes();
 				pressEnter();
 			}
