@@ -104,7 +104,7 @@ public:
 void addNewNote()
 {
 	string firstName, lastName;//user's full name
-	cout << "Let’s add a new note ... \n";
+	cout << "Letâ€™s add a new note ... \n";
 	cout << "Please enter your full name first:  "; cin >> firstName >> lastName;
 	string fullName = firstName + lastName ;
 	ifstream file(fullName);
@@ -112,10 +112,11 @@ void addNewNote()
 	{
 		cout << "Oh! Sorry the user name was not found, please check the name again and if this is your first time here,"
 			 << "please go ahead and create a new user from the main menu ..." << endl;
+
 	}
 	else
 	{
-		cout << "Your record is found, I’m now opening your file ….\nReady!\nPlease enter your note :";
+		cout << "Your record is found, Iâ€™m now opening your file â€¦.\nReady!\nPlease enter your note :";
 		string newNote;
 		cin.ignore();
 		getline(cin, newNote);
