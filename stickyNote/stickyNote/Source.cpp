@@ -11,14 +11,6 @@ Amir ALtakroori and Faris Abu 3ram
 
 using namespace std;
 
-//bool askForPassword()
-//{
-//	string userPassword , verifyPassword ;
-//	getline(cin,userPassword);
-//	getline(cin,verifyPassword);
-//}
-
-
 void printUserMenu()
 {
 	cout << "Welcome to the brand new Sticky Notes!\n\n"
@@ -104,53 +96,77 @@ public:
 class Password
 {
 private:
-	string userPassword;
 
 public:
-	Password (string receivedPassword)
-	{
-		userPassword = receivedPassword;
-	}
-
-	bool arePassworsSymmetry (string verifyPassword)
-	{
-		return (userPassword == verifyPassword);
-	}
-
-	void setUserPassword (string fullNameUser)
-	{
-		ofstream file;
-		file.open("UserName and Password", ios_base::app);//ios_base::app use to overwrite the note into the file
-		file << fullNameUser << endl << userPassword << endl;	
-	}
-
-	string getUserPassword(string fullNameUser)
-	{
-		ifstream inUserFile("UserName and Password");
-		string storedUserName, storedPassword;
-		while (getline(inUserFile,storedUserName))// we guarantee that there is userName and password already
-			if (storedUserName == fullNameUser )
-			{
-				getline(inUserFile,storedPassword);
-				return storedPassword;
-			}
-			return "";
-	}
-
-	void askPassword()
+	void generatePassword (string userName)
 	{
 		string userPassword , verifyPassword ;
-		do 
+		cout << "Please enter your password: ";
+		getline (cin,userPassword);
+		cout << "Please enter it again: ";
+		getline (cin,verifyPassword);
+
+		if (userPassword == verifyPassword)
 		{
-			cout << "Please enter your password: ";
-			getline(cin,userPassword);
-			cout << "Please enter it again: ";
-			getline(cin,verifyPassword);
-		} while ((userPassword != verifyPassword));
+			ofstream file;
+			file.open("UserName and Password", ios_base::app); //ios_base::app use to overwrite the note into the file
+			file << userName << endl << userPassword << endl;	
+		}
+		else
+		{
+			cout << "Password and verification do not match!\n"
+				<< "If you want to try again please press *1\n"
+				<< "If you want to go back press *2 \n";
 
-
+			int choice;		cin >> choice;
+			if (choice == 1)
+				generatePassword (userName);
+			else
+				return;
+		}
 	}
 
+	//Password (string receivedPassword)
+	//{
+	//	userPassword = receivedPassword;
+	//}
+
+	//bool arePassworsSymmetry (string verifyPassword)
+	//{
+	//	return (userPassword == verifyPassword);
+	//}
+
+	//void setUserPassword (string fullNameUser)
+	//{
+	//	ofstream file;
+	//	file.open("UserName and Password", ios_base::app);//ios_base::app use to overwrite the note into the file
+	//	file << fullNameUser << endl << userPassword << endl;	
+	//}
+
+	//string getUserPassword(string fullNameUser)
+	//{
+	//	ifstream inUserFile("UserName and Password");
+	//	string storedUserName, storedPassword;
+	//	while (getline(inUserFile,storedUserName))// we guarantee that there is userName and password already
+	//		if (storedUserName == fullNameUser )
+	//		{
+	//			getline(inUserFile,storedPassword);
+	//			return storedPassword;
+	//		}
+	//		return "";
+	//}
+
+	//void askPassword()
+	//{
+	//	string userPassword , verifyPassword ;
+	//	do 
+	//	{
+	//		cout << "Please enter your password: ";
+	//		getline(cin,userPassword);
+	//		cout << "Please enter it again: ";
+	//		getline(cin,verifyPassword);
+	//	} while ((userPassword != verifyPassword));
+	//}
 };
 
 void addNewNote()
