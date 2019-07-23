@@ -4,13 +4,18 @@ Authers :
 Amir ALtakroori and Faris Abu 3ram
 */
 
-#include<iostream>
-#include<fstream>
-#include<string>
+#include <iostream>
+#include <fstream>
+#include <string>
 #include <ctime>
 
 using namespace std;
 
+/**
+ void function prints a Main Menu as user's request which are four options: 
+ adding new user, adding new note, printing all notes and exit.
+ There is no parameter passed to this function and there is no overloaded function.
+*/
 void printUserMenu()
 {
 	cout << "Welcome to the brand new Sticky Notes!\n\n"
@@ -20,6 +25,10 @@ void printUserMenu()
 		<< "Please, enter your choice: ";
 }
 
+/**
+ void function leads the user to main menu after pressing enter
+ There is no parameter passed to this function and there is no overloaded function.
+*/
 void pressEnter()
 {
 	char Enter ;
@@ -31,7 +40,94 @@ void pressEnter()
 	}while(Enter!='\n');
 }
 
+/**
+This class doesn't have data members. It just work as a functions collector
+*/
+class Password
+{
+public:
+
+	/**
+	Boolean function takes one string argument "User Name" and it asks the user to enter a password twice 
+	then the function will stored password and user in "UserName and Password" file
+	*/
+	bool checkWithAssigningPassword (string userName)
+	{
+		string userPassword , verifyPassword ;
+		cin.get();
+		cout << "Please enter your password: ";
+		getline (cin,userPassword);
+		cout << "Please enter it again: ";
+		getline (cin,verifyPassword);
+
+		if (userPassword == verifyPassword)
+		{
+			ofstream file;
+			file.open("UserName and Password", ios_base::app); //ios_base::app use to overwrite the note into the file
+			file << userName << endl << userPassword << endl;	
+			return true;
+		}
+		else
+		{
+			cout << "\nPassword and verification do not match!\n"
+				<< "If you want to try again please press *1\n"
+				<< "If you want to go back press *2 \n";
+
+			int choice;		cin >> choice;
+			if (choice == 1)
+				return checkWithAssigningPassword (userName);
+			else
+				return false;
+		}
+	}
+
+	/**
+		It take a full name as a string parameter and it return the user's passward as a string
+	*/
+	string getUserPassword(string fullNameUser)
+	{
+		ifstream inUserFile("UserName and Password");
+		string storedUserName, storedPassword;
+		while (getline(inUserFile,storedUserName))// we guarantee that there is userName and password already
+			if (storedUserName == fullNameUser )
+			{
+				getline(inUserFile,storedPassword);
+				return storedPassword;
+			}
+			return "";
+	}
+
+	/**
+	That is a boolean function takes one string parameter which represent user name 
+	and it asks user to enter user's password. If the password correct it returns true
+	*/
+	bool askPassword(string userName)
+	{
+		string enteredUserPassword ;
+		cout << "Please enter your password: ";
+		cin.get();
+		getline(cin,enteredUserPassword);
+
+		if (enteredUserPassword == getUserPassword (userName))
+			return true;
+
+		cout << "\nPassword is not correct!\n"
+			<< "If you want to try again please press: 1\n"
+			<< "If you want to go back press: 2 \n";
+
+		int choice;		cin >> choice;
+		if (choice == 1)
+			return askPassword (userName);
+		else
+			return false;
+	}
+};
+
 // This function will implement the first option in main menu
+/**
+	That is a void function doesn't have parameters. It receives two string which represent first and last name,
+	then it generates a file have the same user's full name
+*/
 void addNewUser()
 {
 	/*
@@ -47,14 +143,20 @@ void addNewUser()
 	cout << "Great " << firstName << ", now please enter your last name: ";
 	string lastName;				cin >> lastName;
 
-	string fullName = firstName + lastName;
+	string fullName = firstName + " " + lastName;
 	ifstream inUserFile (fullName);
 
 	if (!inUserFile) // there is no file have the same user name
-		ofstream outUserFile (fullName); // just to open new file have the same name of user
+	{
+		Password* userPasswoed = new Password();
+		if (userPasswoed->checkWithAssigningPassword(fullName))  // to generate a password and to check if that proccess done
+		{
+			ofstream outUserFile (fullName); // just to open new file have the same name of user
+			cout << fullName << " is added successfully\n";
+		}
+	}
 	else // user name was used
-		cout << "\n\n" << fullName << " was used!\n please try another name or write your notes directly!\n";
-
+		cout << "\n" << fullName << " was used!\n please try another name or write your notes directly!\n";
 }
 
 class  Note
@@ -93,58 +195,72 @@ public:
 	}
 };
 
+// This function will implement the second option in main menu
 void addNewNote()
 {
 	string firstName, lastName;//user's full name
-	cout << "Let’s add a new note ... \n";
+	cout << "Let's add a new note ... \n";
 	cout << "Please enter your full name first:  "; cin >> firstName >> lastName;
-	string fullName = firstName + lastName ;
+	string fullName = firstName + " " + lastName ;
 	ifstream file(fullName);
 	if (!file)
 	{
 		cout << "Oh! Sorry the user name was not found, please check the name again and if this is your first time here,"
-			 << "please go ahead and create a new user from the main menu ..." << endl;
-
+			<< "please go ahead and create a new user from the main menu ..." << endl;
 	}
 	else
 	{
-		cout << "Your record is found, I’m now opening your file ….\nReady!\nPlease enter your note :";
-		string newNote;
-		cin.ignore();
-		getline(cin, newNote);
-		Note note(newNote);
-		ofstream File;
-		File.open(fullName, ios_base::app);//ios_base::app use to overwrite the note into the file
-		File << note.toStringNote();
-		File.close();
+		Password* userPassword = new Password();
+		if (userPassword -> askPassword(fullName))
+		{
+			cout << "Your record is found, I'm now opening your file,,,.\nReady!\nPlease enter your note :";
+			string newNote;
+			cin.ignore();
+			getline(cin, newNote);
+			Note note(newNote);
+			ofstream File;
+			File.open(fullName, ios_base::app);//ios_base::app use to overwrite the note into the file
+			File << note.toStringNote();
+			File.close();
+		}
 	}
 }
 
 // This function will implement the third option in main menu
+/**
+	That is a void function doesn't have parameters. It receives a string which represents user's full name
+	and prints all note that has stored	
+*/
 void printAllNotes()
 {
+
 	cout << "Retrieve your notes? Absolutely! Please let know your full name first: ";
 
 	string firstName , lastName;
 	cin >> firstName >> lastName;
 
-	string fullName = firstName + "" + lastName;
+	string fullName = firstName + " " + lastName;
 	ifstream inUserFile (fullName);
 
 	if (!inUserFile) // there is no file have the same user name
 		cout << "\n\n" << "User name: " << fullName << "was not found, please try diffrent user name!\n";
+	
+
 	else // user name was found
 	{
-		cout << "Found it!\n"
-			 << "Here are your stored notes:\n"
-			 << "-------------\n";
+		Password* userPassword = new Password();
+		if (userPassword -> askPassword(fullName))
+		{
+			cout << "Found it!\n"
+				<< "Here are your stored notes:\n"
+				<< "-------------\n";
 
-		string fileContents;
-		while (getline(inUserFile,fileContents))
-			cout << fileContents << endl;
-
-		cout << "-------------\n"
-			 << "Happy to serve you :)\n";
+			string fileContents;
+			while (getline(inUserFile,fileContents))
+				cout << fileContents << endl;
+			cout << "-------------\n"
+				<< "Happy to serve you :)\n";
+		}
 	}
 }
 
@@ -154,7 +270,7 @@ int main()
 	do
 	{
 		printUserMenu();
-
+		system ("color 07");
 		cin >> userChoice;
 		switch (userChoice)
 		{
@@ -166,6 +282,8 @@ int main()
 				Adding new user means open a new file in specific directory.
 				Project guarantee that there is a unique user.
 				*/
+				system("cls");
+				system("color 70");
 				addNewUser();
 				pressEnter();
 			}
@@ -177,23 +295,30 @@ int main()
 				by entering first name and last name.
 				Adding new note means open a specific file depend on user name if exist or not .
 				*/
+				system("cls");
+				system("color 70");
 				addNewNote();
 				pressEnter();
 			}
 			break;
 		case 3:
 			{
+				system("cls");
+				system("color 70");
 				printAllNotes();
 				pressEnter();
 			}
 			break;
 		case 4:
-
 			break;
+		default:
+			{
+				cout << "Invalid choice! \n";
+				system("color 4");
+				pressEnter();
+			}
 		}
-
 		system("cls");
 	} while (userChoice != 4);
-
 	return 0;
 }
