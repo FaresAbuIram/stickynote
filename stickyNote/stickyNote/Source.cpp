@@ -98,7 +98,7 @@ public:
 	}
 
 	/**
-	That a boolean function takes one string parameter which represent user name 
+	That is a boolean function takes one string parameter which represent user name 
 	and it asks user to enter user's password. If the password correct it returns true
 	*/
 	bool askPassword(string userName)
@@ -125,6 +125,8 @@ public:
 
 // This function will implement the first option in main menu
 /**
+	That is a void function doesn't have parameters. It receives two string which represent first and last name,
+	then it generates a file have the same user's full name
 */
 void addNewUser()
 {
@@ -193,6 +195,7 @@ public:
 	}
 };
 
+// This function will implement the second option in main menu
 void addNewNote()
 {
 	string firstName, lastName;//user's full name
@@ -224,6 +227,10 @@ void addNewNote()
 }
 
 // This function will implement the third option in main menu
+/**
+	That is a void function doesn't have parameters. It receives a string which represents user's full name
+	and prints all note that has stored	
+*/
 void printAllNotes()
 {
 
