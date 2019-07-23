@@ -1,13 +1,18 @@
-/**This project was created to creat file carries user's name
+/*
+This project was created to creat file carries user's name
 so, The user can write notes inside it with the time it was written
+
 Authers :
 Amir ALtakroori and Faris Abu 3ram
+
+Last modified: 7/23/2019
 */
 
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <ctime>
+#include <conio.h>
 
 using namespace std;
 
@@ -48,7 +53,7 @@ class Password
 public:
 
 	/**
-	Boolean function takes one string argument "User Name" and it asks the user to enter a password twice
+	Boolean function takes one string argument "User Name" and it asks the user to enter a password twice 
 	then the function will stored password and user in "UserName and Password" file
 	*/
 	bool checkWithAssigningPassword (string userName)
@@ -56,16 +61,15 @@ public:
 		string userPassword , verifyPassword ;
 		cin.get();
 		cout << "Please enter your password: ";
-		getline (cin,userPassword);
+		userPassword = hiddenInputLine();
 		cout << "Please enter it again: ";
-		getline (cin,verifyPassword);
+		verifyPassword = hiddenInputLine();
 
-		if (userPassword == verifyPassword)//password correct
+		if (userPassword == verifyPassword)
 		{
 			ofstream file;
 			file.open("UserName and Password", ios_base::app); //ios_base::app use to overwrite the note into the file
-			file << userName << endl << userPassword << endl;//save the user's name and his password in the file the is contain a name of users and their passwords
-			file.close();
+			file << userName << endl << userPassword << endl;	
 			return true;
 		}
 		else
@@ -74,9 +78,8 @@ public:
 				<< "If you want to try again please press *1\n"
 				<< "If you want to go back press *2 \n";
 
-			int choice;//to show a option for a user to enter a password another one or to exit
-		    cin >> choice;
-	 		if (choice == 1)
+			int choice;		cin >> choice;
+			if (choice == 1)
 				return checkWithAssigningPassword (userName);
 			else
 				return false;
@@ -84,7 +87,7 @@ public:
 	}
 
 	/**
-		It take a full name as a string parameter and it return the user's password as a string
+	It take a full name as a string parameter and it return the user's passward as a string
 	*/
 	string getUserPassword(string fullNameUser)
 	{
@@ -100,7 +103,7 @@ public:
 	}
 
 	/**
-	That is a boolean function takes one string parameter which represent user name
+	That is a boolean function takes one string parameter which represent user name 
 	and it asks user to enter user's password. If the password correct it returns true
 	*/
 	bool askPassword(string userName)
@@ -108,22 +111,43 @@ public:
 		string enteredUserPassword ;
 		cout << "Please enter your password: ";
 		cin.get();
-		getline(cin,enteredUserPassword);
+		enteredUserPassword = hiddenInputLine();
 
-		if (enteredUserPassword == getUserPassword (userName))//password correct
+		if (enteredUserPassword == getUserPassword (userName))
 			return true;
 
 		cout << "\nPassword is not correct!\n"
 			<< "If you want to try again please press: 1\n"
 			<< "If you want to go back press: 2 \n";
 
-		int choice;	//to show a option for a user to enter a password another one or to exit
-        cin >> choice;
+		int choice;		cin >> choice;
 		if (choice == 1)
 			return askPassword (userName);
 		else
 			return false;
 	}
+
+	/**
+	This string returned function has no parameter. It will receive a hidden string from a user
+	(It shows on the screen stars instead of entered character)
+	*/
+	string hiddenInputLine()
+	{
+		char c=' ';
+		string hiddenInput="";
+		while (c!=13) /* ENTER KEY */
+		{
+			c=getch();
+			if (c!=13)
+			{
+				hiddenInput+=c;
+				cout<<"*";
+			}
+		}
+		cout << endl;
+		return hiddenInput;
+	}
+
 };
 
 // This function will implement the first option in main menu
