@@ -113,11 +113,9 @@ public:
 
 		int choice;		cin >> choice;
 		if (choice == 1)
-			askPassword (userName);
+			return askPassword (userName);
 		else
 			return false;
-
-		return false;
 	}
 };
 
