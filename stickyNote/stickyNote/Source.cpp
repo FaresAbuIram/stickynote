@@ -8,13 +8,14 @@ Amir ALtakroori and Faris Abu 3ram
 #include <fstream>
 #include <string>
 #include <ctime>
+#include <conio.h>
 
 using namespace std;
 
 /**
- void function prints a Main Menu as user's request which are four options: 
- adding new user, adding new note, printing all notes and exit.
- There is no parameter passed to this function and there is no overloaded function.
+void function prints a Main Menu as user's request which are four options: 
+adding new user, adding new note, printing all notes and exit.
+There is no parameter passed to this function and there is no overloaded function.
 */
 void printUserMenu()
 {
@@ -26,8 +27,8 @@ void printUserMenu()
 }
 
 /**
- void function leads the user to main menu after pressing enter
- There is no parameter passed to this function and there is no overloaded function.
+void function leads the user to main menu after pressing enter
+There is no parameter passed to this function and there is no overloaded function.
 */
 void pressEnter()
 {
@@ -56,9 +57,9 @@ public:
 		string userPassword , verifyPassword ;
 		cin.get();
 		cout << "Please enter your password: ";
-		getline (cin,userPassword);
+		userPassword = hiddenInputLine();
 		cout << "Please enter it again: ";
-		getline (cin,verifyPassword);
+		verifyPassword = hiddenInputLine();
 
 		if (userPassword == verifyPassword)
 		{
@@ -82,7 +83,7 @@ public:
 	}
 
 	/**
-		It take a full name as a string parameter and it return the user's passward as a string
+	It take a full name as a string parameter and it return the user's passward as a string
 	*/
 	string getUserPassword(string fullNameUser)
 	{
@@ -106,7 +107,7 @@ public:
 		string enteredUserPassword ;
 		cout << "Please enter your password: ";
 		cin.get();
-		getline(cin,enteredUserPassword);
+		enteredUserPassword = hiddenInputLine();
 
 		if (enteredUserPassword == getUserPassword (userName))
 			return true;
@@ -121,12 +122,34 @@ public:
 		else
 			return false;
 	}
+
+	/**
+	This string returned function has no parameter. It will receive a hidden string from a user
+	*/
+	string hiddenInputLine()
+	{
+		char c=' ';
+		string hiddenInput="";
+		cout<<"Enter password: ";
+		while (c!=13) /* ENTER KEY */
+		{
+			c=getch();
+			if (c!=13)
+			{
+				hiddenInput+=c;
+				cout<<"*";
+			}
+		}
+		cout << endl;
+		return hiddenInput;
+	}
+
 };
 
 // This function will implement the first option in main menu
 /**
-	That is a void function doesn't have parameters. It receives two string which represent first and last name,
-	then it generates a file have the same user's full name
+That is a void function doesn't have parameters. It receives two string which represent first and last name,
+then it generates a file have the same user's full name
 */
 void addNewUser()
 {
@@ -228,8 +251,8 @@ void addNewNote()
 
 // This function will implement the third option in main menu
 /**
-	That is a void function doesn't have parameters. It receives a string which represents user's full name
-	and prints all note that has stored	
+That is a void function doesn't have parameters. It receives a string which represents user's full name
+and prints all note that has stored	
 */
 void printAllNotes()
 {
@@ -244,7 +267,7 @@ void printAllNotes()
 
 	if (!inUserFile) // there is no file have the same user name
 		cout << "\n\n" << "User name: " << fullName << "was not found, please try diffrent user name!\n";
-	
+
 
 	else // user name was found
 	{
