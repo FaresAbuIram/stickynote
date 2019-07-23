@@ -11,6 +11,11 @@ Amir ALtakroori and Faris Abu 3ram
 
 using namespace std;
 
+/**
+ void function prints a Main Menu as user's request which are four options: 
+ adding new user, adding new note, printing all notes and exit.
+ There is no parameter passed to this function and there is no overloaded function.
+*/
 void printUserMenu()
 {
 	cout << "Welcome to the brand new Sticky Notes!\n\n"
@@ -20,6 +25,10 @@ void printUserMenu()
 		<< "Please, enter your choice: ";
 }
 
+/**
+ void function leads the user to main menu after pressing enter
+ There is no parameter passed to this function and there is no overloaded function.
+*/
 void pressEnter()
 {
 	char Enter ;
@@ -31,11 +40,18 @@ void pressEnter()
 	}while(Enter!='\n');
 }
 
+/**
+This class doesn't have data members. It just work as a functions collector
+*/
 class Password
 {
 public:
 
-	bool checkWithGeneratingPassword (string userName)
+	/**
+	Boolean function takes one string argument "User Name" and it asks the user to enter a password twice 
+	then the function will stored password and user in "UserName and Password" file
+	*/
+	bool checkWithAssigningPassword (string userName)
 	{
 		string userPassword , verifyPassword ;
 		cin.get();
@@ -59,12 +75,15 @@ public:
 
 			int choice;		cin >> choice;
 			if (choice == 1)
-				checkWithGeneratingPassword (userName);
+				checkWithAssigningPassword (userName);
 			else
 				return false;
 		}
 	}
 
+	/**
+		It take a full name as a string parameter and it return the user's passward as a string
+	*/
 	string getUserPassword(string fullNameUser)
 	{
 		ifstream inUserFile("UserName and Password");
@@ -124,7 +143,7 @@ void addNewUser()
 	if (!inUserFile) // there is no file have the same user name
 	{
 		Password* userPasswoed = new Password();
-		if (userPasswoed->checkWithGeneratingPassword(fullName))  // to generate a password and to check if that proccess done
+		if (userPasswoed->checkWithAssigningPassword(fullName))  // to generate a password and to check if that proccess done
 		{
 			ofstream outUserFile (fullName); // just to open new file have the same name of user
 			cout << fullName << " is added successfully\n";
@@ -290,6 +309,5 @@ int main()
 		}
 		system("cls");
 	} while (userChoice != 4);
-
 	return 0;
 }
