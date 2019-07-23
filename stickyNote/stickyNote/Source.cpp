@@ -75,7 +75,7 @@ public:
 
 			int choice;		cin >> choice;
 			if (choice == 1)
-				checkWithAssigningPassword (userName);
+				return checkWithAssigningPassword (userName);
 			else
 				return false;
 		}
@@ -97,6 +97,10 @@ public:
 			return "";
 	}
 
+	/**
+	That a boolean function takes one string parameter which represent user name 
+	and it asks user to enter user's password. If the password correct it returns true
+	*/
 	bool askPassword(string userName)
 	{
 		string enteredUserPassword ;
@@ -120,6 +124,8 @@ public:
 };
 
 // This function will implement the first option in main menu
+/**
+*/
 void addNewUser()
 {
 	/*
