@@ -84,7 +84,7 @@ public:
 	}
 
 	/**
-		It take a full name as a string parameter and it return the user's passward as a string
+		It take a full name as a string parameter and it return the user's password as a string
 	*/
 	string getUserPassword(string fullNameUser)
 	{
@@ -161,12 +161,19 @@ void addNewUser()
 	else // user name was used
 		cout << "\n" << fullName << " was used!\n please try another name or write your notes directly!\n";
 }
-
+/**
+This class doesn't have data members. It just work as a functions collector
+to add new note to the user's file by enter user's name and correct password
+*/
 class  Note
 {
 	// class to add new note
 private:
 	string note;//a note that user add it
+	/**
+	That is a void function have five parameters . It receives a year ,month ,day ,hour and minutes
+	to return current date and time
+*/
 	void getTime(int& year, int& month, int& day, int& hour, int& mins)
 	{
 		// to claculate the current time
@@ -183,12 +190,18 @@ private:
 	}
 
 public:
+    /**
+	That is a constructure have one parameters . It receives a string as note
+	to create a new class  note
+*/
 	Note(string note)
 	{
 		//constructure was take note as  a parameters
 		this->note = note;
 	}
-
+   /**
+	That is a  function have no parameters . It  return current date , time and note of user as string
+*/
 	string toStringNote()
 	{
 		// to return a note and time  in best way
@@ -199,6 +212,10 @@ public:
 };
 
 // This function will implement the second option in main menu
+/**
+	That is a void function doesn't have parameters. It receives two string which represent first and last name,
+	then it add new note for user inside his file
+*/
 void addNewNote()
 {
 	string firstName, lastName;//user's full name
