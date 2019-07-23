@@ -1,4 +1,4 @@
-/*This project was created to creat file carries user's name
+/**This project was created to creat file carries user's name
 so, The user can write notes inside it with the time it was written
 Authers :
 Amir ALtakroori and Faris Abu 3ram
@@ -12,7 +12,7 @@ Amir ALtakroori and Faris Abu 3ram
 using namespace std;
 
 /**
- void function prints a Main Menu as user's request which are four options: 
+ void function prints a Main Menu as user's request which are four options:
  adding new user, adding new note, printing all notes and exit.
  There is no parameter passed to this function and there is no overloaded function.
 */
@@ -48,7 +48,7 @@ class Password
 public:
 
 	/**
-	Boolean function takes one string argument "User Name" and it asks the user to enter a password twice 
+	Boolean function takes one string argument "User Name" and it asks the user to enter a password twice
 	then the function will stored password and user in "UserName and Password" file
 	*/
 	bool checkWithAssigningPassword (string userName)
@@ -60,11 +60,12 @@ public:
 		cout << "Please enter it again: ";
 		getline (cin,verifyPassword);
 
-		if (userPassword == verifyPassword)
+		if (userPassword == verifyPassword)//password correct
 		{
 			ofstream file;
 			file.open("UserName and Password", ios_base::app); //ios_base::app use to overwrite the note into the file
-			file << userName << endl << userPassword << endl;	
+			file << userName << endl << userPassword << endl;//save the user's name and his password in the file the is contain a name of users and their passwords
+			file.close();
 			return true;
 		}
 		else
@@ -73,9 +74,10 @@ public:
 				<< "If you want to try again please press *1\n"
 				<< "If you want to go back press *2 \n";
 
-			int choice;		cin >> choice;
-			if (choice == 1)
-				checkWithAssigningPassword (userName);
+			int choice;//to show a option for a user to enter a password another one or to exit
+		    cin >> choice;
+	 		if (choice == 1)
+				return checkWithAssigningPassword (userName);
 			else
 				return false;
 		}
@@ -97,6 +99,10 @@ public:
 			return "";
 	}
 
+	/**
+	That is a boolean function takes one string parameter which represent user name
+	and it asks user to enter user's password. If the password correct it returns true
+	*/
 	bool askPassword(string userName)
 	{
 		string enteredUserPassword ;
@@ -104,14 +110,15 @@ public:
 		cin.get();
 		getline(cin,enteredUserPassword);
 
-		if (enteredUserPassword == getUserPassword (userName))
+		if (enteredUserPassword == getUserPassword (userName))//password correct
 			return true;
 
 		cout << "\nPassword is not correct!\n"
 			<< "If you want to try again please press: 1\n"
 			<< "If you want to go back press: 2 \n";
 
-		int choice;		cin >> choice;
+		int choice;	//to show a option for a user to enter a password another one or to exit
+        cin >> choice;
 		if (choice == 1)
 			return askPassword (userName);
 		else
@@ -120,6 +127,10 @@ public:
 };
 
 // This function will implement the first option in main menu
+/**
+	That is a void function doesn't have parameters. It receives two string which represent first and last name,
+	then it generates a file have the same user's full name
+*/
 void addNewUser()
 {
 	/*
@@ -140,7 +151,7 @@ void addNewUser()
 
 	if (!inUserFile) // there is no file have the same user name
 	{
-		Password* userPasswoed = new Password();
+		Password* userPasswoed = new Password();//pointer to class Password
 		if (userPasswoed->checkWithAssigningPassword(fullName))  // to generate a password and to check if that proccess done
 		{
 			ofstream outUserFile (fullName); // just to open new file have the same name of user
@@ -187,6 +198,7 @@ public:
 	}
 };
 
+// This function will implement the second option in main menu
 void addNewNote()
 {
 	string firstName, lastName;//user's full name
@@ -201,8 +213,8 @@ void addNewNote()
 	}
 	else
 	{
-		Password* userPassword = new Password();
-		if (userPassword -> askPassword(fullName))
+		Password* userPassword = new Password();//pointer to class Password
+		if (userPassword -> askPassword(fullName))//if the password correct or not
 		{
 			cout << "Your record is found, I'm now opening your file,,,.\nReady!\nPlease enter your note :";
 			string newNote;
@@ -218,6 +230,10 @@ void addNewNote()
 }
 
 // This function will implement the third option in main menu
+/**
+	That is a void function doesn't have parameters. It receives a string which represents user's full name
+	and prints all note that has stored
+*/
 void printAllNotes()
 {
 
@@ -231,12 +247,12 @@ void printAllNotes()
 
 	if (!inUserFile) // there is no file have the same user name
 		cout << "\n\n" << "User name: " << fullName << "was not found, please try diffrent user name!\n";
-	
+
 
 	else // user name was found
 	{
-		Password* userPassword = new Password();
-		if (userPassword -> askPassword(fullName))
+		Password* userPassword = new Password();//pointer to class Password
+		if (userPassword -> askPassword(fullName))//if the password correct or not
 		{
 			cout << "Found it!\n"
 				<< "Here are your stored notes:\n"
