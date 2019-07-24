@@ -53,7 +53,7 @@ class Password
 public:
 
 	/**
-	Boolean function takes one string argument "User Name" and it asks the user to enter a password twice 
+	Boolean function takes one string argument "User Name" and it asks the user to enter a password twice
 	then the function will stored password and user in "UserName and Password" file
 	*/
 	bool checkWithAssigningPassword (string userName)
@@ -69,7 +69,7 @@ public:
 		{
 			ofstream file;
 			file.open("UserName and Password", ios_base::app); //ios_base::app use to overwrite the note into the file
-			file << userName << endl << userPassword << endl;	
+			file << userName << endl << userPassword << endl;
 			return true;
 		}
 		else
@@ -103,7 +103,7 @@ public:
 	}
 
 	/**
-	That is a boolean function takes one string parameter which represent user name 
+	That is a boolean function takes one string parameter which represent user name
 	and it asks user to enter user's password. If the password correct it returns true
 	*/
 	bool askPassword(string userName)
@@ -121,8 +121,10 @@ public:
 			<< "If you want to go back press: 2 \n";
 
 		int choice;		cin >> choice;
-		if (choice == 1)
+		if (choice == 1){
+                 system("cls");
 			return askPassword (userName);
+		}
 		else
 			return false;
 	}
@@ -240,12 +242,18 @@ public:
 	That is a void function doesn't have parameters. It receives two string which represent first and last name,
 	then it add new note for user inside his file
 */
-void addNewNote()
+void addNewNote(int n,string fullNames)//"integer n"  to choose if you want to enter a new note in a the same file and "fullnames" the same file you want to add new note to it
 {
-	string firstName, lastName;//user's full name
+    string firstName, lastName;
+    if(n==1){
+	//user's full name
 	cout << "Let's add a new note ... \n";
 	cout << "Please enter your full name first:  "; cin >> firstName >> lastName;
+    }
+
 	string fullName = firstName + " " + lastName ;
+	 if(n==2)
+        fullName=fullNames;
 	ifstream file(fullName);
 	if (!file)
 	{
@@ -268,6 +276,17 @@ void addNewNote()
 			File.close();
 		}
 	}
+	cout << "If you want to add new note again please press: 1\n"
+			<< "If you want to go back press: 2 \n";
+
+		int choice;		cin >> choice;
+		if (choice == 1){
+            system("cls");
+			addNewNote(2,fullName);
+
+		}
+           system("cls");
+
 }
 
 // This function will implement the third option in main menu
@@ -341,7 +360,7 @@ int main()
 				*/
 				system("cls");
 				system("color 70");
-				addNewNote();
+				addNewNote(1,"");
 				pressEnter();
 			}
 			break;
