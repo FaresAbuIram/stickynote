@@ -58,6 +58,12 @@ public:
 	*/
 	bool checkWithAssigningPassword (string userName)
 	{
+	   char Complete;
+	    cout<<"Do you want to complete please enter any key : \n"
+	         << "If you want to return to main menu press zero (0) :\n";
+	         cin.ignore();
+	         cin.get(Complete);
+	    if(Complete!='0'){
 		string userPassword , verifyPassword ;
 		cin.get();
 		cout << "Please enter your password: ";
@@ -84,6 +90,8 @@ public:
 			else
 				return false;
 		}
+	    }
+	    return false;
 	}
 
 	/**
@@ -108,6 +116,12 @@ public:
 	*/
 	bool askPassword(string userName)
 	{
+	     char Complete;
+	    cout<<"Do you want to complete please enter any key : \n"
+	         << "If you want to return to main menu press zero (0) :\n";
+	         cin.ignore();
+	         cin.get(Complete);
+	    if(Complete!='0'){
 		string enteredUserPassword ;
 		cout << "Please enter your password: ";
 		cin.get();
@@ -127,6 +141,8 @@ public:
 		}
 		else
 			return false;
+	    }
+	    return false;
 	}
 
 	/**
@@ -165,12 +181,25 @@ void addNewUser()
 	Adding new user means open a new file in specific directory.
 	Project guarantee that there is a unique user.
 	*/
-
+      cout<<"if you need to back to the main menu press zero (0) \n";
 	cout << "\nWelcome aboard new user!\nPlease let me know your first name: ";
-	string firstName;				cin >> firstName;
+	string firstName;
+			cin >> firstName;
+			if(firstName=="0")
+                return;
+	if(firstName[0]>='0' && firstName[0]<='9' ){
+        system("cls");
+        cout<<"your name is start with number and it's wrong\n"
+            <<"please add new name\n";
+        addNewUser();
+        if(firstName[0]>='0' && firstName[0]<='9' )
+                return;
+	}
 
 	cout << "Great " << firstName << ", now please enter your last name: ";
 	string lastName;				cin >> lastName;
+	if(lastName=="0")
+        return;
 
 	string fullName = firstName + " " + lastName;
 	ifstream inUserFile (fullName);
@@ -247,13 +276,29 @@ void addNewNote(int n,string fullNames)//"integer n"  to choose if you want to e
     string firstName, lastName;
     if(n==1){
 	//user's full name
+    cout<<"if you need to back to the main menu press zero (0) \n";
 	cout << "Let's add a new note ... \n";
-	cout << "Please enter your full name first:  "; cin >> firstName >> lastName;
+	cout << "Please enter your full name first:  "; cin >> firstName ;
+	  if(firstName=="0")
+                return;
+        if(firstName[0]>='0' && firstName[0]<='9' ){
+        system("cls");
+        cout<<"your name is start with number and it's wrong\n"
+            <<"please add new name\n";
+        addNewNote(1,"");
+        if(firstName[0]>='0' && firstName[0]<='9' )
+                return;
+	}
+	 cin>> lastName;
+       if(lastName=="0")
+            return;
     }
 
 	string fullName = firstName + " " + lastName ;
 	 if(n==2)
         fullName=fullNames;
+        if(fullName=="0")
+                return;
 	ifstream file(fullName);
 	if (!file)
 	{
@@ -274,9 +319,7 @@ void addNewNote(int n,string fullNames)//"integer n"  to choose if you want to e
 			File.open(fullName, ios_base::app);//ios_base::app use to overwrite the note into the file
 			File << note.toStringNote();
 			File.close();
-		}
-	}
-	cout << "If you want to add new note again please press: 1\n"
+			cout << "If you want to add new note again please press: 1\n"
 			<< "If you want to go back press: 2 \n";
 
 		int choice;		cin >> choice;
@@ -286,6 +329,10 @@ void addNewNote(int n,string fullNames)//"integer n"  to choose if you want to e
 
 		}
            system("cls");
+		}
+
+	}
+
 
 }
 
@@ -297,10 +344,23 @@ void addNewNote(int n,string fullNames)//"integer n"  to choose if you want to e
 void printAllNotes()
 {
 
-	cout << "Retrieve your notes? Absolutely! Please let know your full name first: ";
+	cout << "Retrieve your notes? Absolutely!";
 
 	string firstName , lastName;
-	cin >> firstName >> lastName;
+	 cout<<"if you need to back to the main menu press zero (0) \n";
+	cout << "Let's add a new note ... \n";
+	cout << "Please enter your full name first:  "; cin >> firstName ;
+	  if(firstName=="0")
+                return;
+        if(firstName[0]>='0' && firstName[0]<='9' ){
+        system("cls");
+        cout<<"your name is start with number and it's wrong\n"
+            <<"please add new name\n";
+        printAllNotes();
+        if(firstName[0]>='0' && firstName[0]<='9' )
+                return;
+	}
+	cin >> lastName;
 
 	string fullName = firstName + " " + lastName;
 	ifstream inUserFile (fullName);
