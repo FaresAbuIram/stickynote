@@ -58,19 +58,13 @@ public:
 	*/
 	bool checkWithAssigningPassword (string userName)
 	{
-	   char Complete;
-	    cout<<"Do you want to complete please enter any key : \n"
-	         << "If you want to return to main menu press zero (0) :\n";
-	         cin.ignore();
-	         cin.get(Complete);
-	    if(Complete!='0'){
+
 		string userPassword , verifyPassword ;
 		cin.get();
 		cout << "Please enter your password: ";
 		userPassword = hiddenInputLine();
 		cout << "Please enter it again: ";
 		verifyPassword = hiddenInputLine();
-
 		if (userPassword == verifyPassword)
 		{
 			ofstream file;
@@ -90,8 +84,7 @@ public:
 			else
 				return false;
 		}
-	    }
-	    return false;
+
 	}
 
 	/**
@@ -116,15 +109,9 @@ public:
 	*/
 	bool askPassword(string userName)
 	{
-	     char Complete;
-	    cout<<"Do you want to complete please enter any key : \n"
-	         << "If you want to return to main menu press zero (0) :\n";
-	         cin.ignore();
-	         cin.get(Complete);
-	    if(Complete!='0'){
 		string enteredUserPassword ;
 		cout << "Please enter your password: ";
-		cin.get();
+		//cin.get();
 		enteredUserPassword = hiddenInputLine();
 
 		if (enteredUserPassword == getUserPassword (userName))
@@ -141,8 +128,7 @@ public:
 		}
 		else
 			return false;
-	    }
-	    return false;
+
 	}
 
 	/**
@@ -181,12 +167,9 @@ void addNewUser()
 	Adding new user means open a new file in specific directory.
 	Project guarantee that there is a unique user.
 	*/
-      cout<<"if you need to back to the main menu press zero (0) \n";
 	cout << "\nWelcome aboard new user!\nPlease let me know your first name: ";
 	string firstName;
 			cin >> firstName;
-			if(firstName=="0")
-                return;
 	if(firstName[0]>='0' && firstName[0]<='9' ){
         system("cls");
         cout<<"your name is start with number and it's wrong\n"
@@ -198,8 +181,6 @@ void addNewUser()
 
 	cout << "Great " << firstName << ", now please enter your last name: ";
 	string lastName;				cin >> lastName;
-	if(lastName=="0")
-        return;
 
 	string fullName = firstName + " " + lastName;
 	ifstream inUserFile (fullName);
@@ -216,20 +197,7 @@ void addNewUser()
 	else // user name was used
 		cout << "\n" << fullName << " was used!\n please try another name or write your notes directly!\n";
 }
-/**
-This class doesn't have data members. It just work as a functions collector
-to add new note to the user's file by enter user's name and correct password
-*/
-class  Note
-{
-	// class to add new note
-private:
-	string note;//a note that user add it
-	/**
-	That is a void function have five parameters . It receives a year ,month ,day ,hour and minutes
-	to return current date and time
-*/
-	void getTime(int& year, int& month, int& day, int& hour, int& mins)
+void getTime(int& year, int& month, int& day, int& hour, int& mins)
 	{
 		// to claculate the current time
 
@@ -238,67 +206,77 @@ private:
 		tm TM = *localtime(&Time);//Structure containing a calendar date and time broken down into its components.
 
 		year = TM.tm_year + 1900;
-		month = TM.tm_mon;
+		month = TM.tm_mon+1;
 		day = TM.tm_mday;
 		hour = TM.tm_hour;
 		mins = TM.tm_min;
 	}
-
-public:
-    /**
-	That is a constructure have one parameters . It receives a string as note
-	to create a new class  note
-*/
-	Note(string note)
-	{
-		//constructure was take note as  a parameters
-		this->note = note;
-	}
-   /**
-	That is a  function have no parameters . It  return current date , time and note of user as string
-*/
-	string toStringNote()
+	string Time()
 	{
 		// to return a note and time  in best way
 		int year, month, day, hour, mins;
 		getTime(year, month, day, hour, mins);
-		return (to_string(day) + '/' + to_string(month) + '/' + to_string(year) + " " + to_string(hour) + ':' + to_string(mins)  +':'+ "\n"+ note+'\n'+'\n' );
+		return (to_string(day) + '/' + to_string(month) + '/' + to_string(year) + " " + to_string(hour) + ':' + to_string(mins)  +':'+ '\n');
 	}
-};
+
 
 // This function will implement the second option in main menu
 /**
 	That is a void function doesn't have parameters. It receives two string which represent first and last name,
 	then it add new note for user inside his file
 */
-void addNewNote(int n,string fullNames)//"integer n"  to choose if you want to enter a new note in a the same file and "fullnames" the same file you want to add new note to it
+void addAnotherNote(string fullName){
+cout<<" I'm now opening your file,,,.\nReady!\nPlease enter your note when you finish enter stop :";
+			string newNote;
+			cin.ignore();
+
+			ofstream File;
+			File.open(fullName, ios_base::app);//ios_base::app use to overwrite the note into the file
+			File<<Time();
+         getline(cin, newNote);
+			while(newNote!="stop"){
+                    File << newNote<<'\n';
+                   getline(cin, newNote);
+
+			}
+
+            File<<"\n \n ";
+
+			File.close();
+			cout << "If you want to add new note again please press: 1\n"
+			<< "If you want to go back press: 2 \n";
+
+		int choice;		cin >> choice;
+		if (choice == 1){
+            system("cls");
+			addAnotherNote(fullName);
+
+		}
+}
+void addNewNote(string fullNames)//"integer n"  to choose if you want to enter a new note in a the same file and "fullnames" the same file you want to add new note to it
 {
     string firstName, lastName;
-    if(n==1){
+
 	//user's full name
-    cout<<"if you need to back to the main menu press zero (0) \n";
 	cout << "Let's add a new note ... \n";
 	cout << "Please enter your full name first:  "; cin >> firstName ;
-	  if(firstName=="0")
-                return;
+
         if(firstName[0]>='0' && firstName[0]<='9' ){
         system("cls");
         cout<<"your name is start with number and it's wrong\n"
             <<"please add new name\n";
-        addNewNote(1,"");
+        addNewNote("");
         if(firstName[0]>='0' && firstName[0]<='9' )
                 return;
-	}
+        }
+
+
 	 cin>> lastName;
-       if(lastName=="0")
-            return;
-    }
+
+
 
 	string fullName = firstName + " " + lastName ;
-	 if(n==2)
-        fullName=fullNames;
-        if(fullName=="0")
-                return;
+
 	ifstream file(fullName);
 	if (!file)
 	{
@@ -310,24 +288,10 @@ void addNewNote(int n,string fullNames)//"integer n"  to choose if you want to e
 		Password* userPassword = new Password();//pointer to class Password
 		if (userPassword -> askPassword(fullName))//if the password correct or not
 		{
-			cout << "Your record is found, I'm now opening your file,,,.\nReady!\nPlease enter your note :";
-			string newNote;
-			cin.ignore();
-			getline(cin, newNote);
-			Note note(newNote);
-			ofstream File;
-			File.open(fullName, ios_base::app);//ios_base::app use to overwrite the note into the file
-			File << note.toStringNote();
-			File.close();
-			cout << "If you want to add new note again please press: 1\n"
-			<< "If you want to go back press: 2 \n";
+			cout << "Your record is found ,";
+			addAnotherNote(fullName);
 
-		int choice;		cin >> choice;
-		if (choice == 1){
-            system("cls");
-			addNewNote(2,fullName);
 
-		}
            system("cls");
 		}
 
@@ -347,11 +311,8 @@ void printAllNotes()
 	cout << "Retrieve your notes? Absolutely!";
 
 	string firstName , lastName;
-	 cout<<"if you need to back to the main menu press zero (0) \n";
 	cout << "Let's add a new note ... \n";
 	cout << "Please enter your full name first:  "; cin >> firstName ;
-	  if(firstName=="0")
-                return;
         if(firstName[0]>='0' && firstName[0]<='9' ){
         system("cls");
         cout<<"your name is start with number and it's wrong\n"
@@ -389,7 +350,7 @@ void printAllNotes()
 
 int main()
 {
-	int userChoice; // to control what is the option to user need to move it
+	char userChoice; // to control what is the option to user need to move it
 	do
 	{
 		printUserMenu();
@@ -397,7 +358,7 @@ int main()
 		cin >> userChoice;
 		switch (userChoice)
 		{
-		case 1:
+		case '1':
 			{
 				/*
 				This option let the user to add new user
@@ -411,7 +372,7 @@ int main()
 				pressEnter();
 			}
 			break;
-		case 2:
+		case '2':
 			{
 				/*
 				This option let the user to add new note
@@ -420,11 +381,11 @@ int main()
 				*/
 				system("cls");
 				system("color 70");
-				addNewNote(1,"");
+				addNewNote("");
 				pressEnter();
 			}
 			break;
-		case 3:
+		case '3':
 			{
 				system("cls");
 				system("color 70");
@@ -432,7 +393,7 @@ int main()
 				pressEnter();
 			}
 			break;
-		case 4:
+		case '4':
 			break;
 		default:
 			{
@@ -442,6 +403,6 @@ int main()
 			}
 		}
 		system("cls");
-	} while (userChoice != 4);
+	} while (userChoice != '4');
 	return 0;
 }
