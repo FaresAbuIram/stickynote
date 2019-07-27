@@ -40,7 +40,6 @@ void pressEnter()
 	do
 	{
 		cout << "Press Enter to return to main menu : ";
-		cin.ignore();
 		cin.get(Enter);
 	}while(Enter!='\n');
 }
@@ -120,8 +119,8 @@ public:
 			<< "If you want to try again please press: 1\n"
 			<< "If you want to go back press: 2 \n";
 
-		int choice;		cin >> choice;
-		if (choice == 1){
+		char choice;		cin >> choice;
+		if (choice == '1'){
                  system("cls");
 			return askPassword (userName);
 		}
@@ -242,18 +241,17 @@ public:
 	That is a void function doesn't have parameters. It receives two string which represent first and last name,
 	then it add new note for user inside his file
 */
-void addNewNote(int n,string fullNames)//"integer n"  to choose if you want to enter a new note in a the same file and "fullnames" the same file you want to add new note to it
+void addNewNote(string fullNames)//"integer n"  to choose if you want to enter a new note in a the same file and "fullnames" the same file you want to add new note to it
 {
     string firstName, lastName;
-    if(n==1){
+
 	//user's full name
 	cout << "Let's add a new note ... \n";
 	cout << "Please enter your full name first:  "; cin >> firstName >> lastName;
-    }
+
 
 	string fullName = firstName + " " + lastName ;
-	 if(n==2)
-        fullName=fullNames;
+
 	ifstream file(fullName);
 	if (!file)
 	{
@@ -262,29 +260,44 @@ void addNewNote(int n,string fullNames)//"integer n"  to choose if you want to e
 	}
 	else
 	{
+	    char choice=2;
 		Password* userPassword = new Password();//pointer to class Password
 		if (userPassword -> askPassword(fullName))//if the password correct or not
 		{
-			cout << "Your record is found, I'm now opening your file,,,.\nReady!\nPlease enter your note :";
-			string newNote;
-			cin.ignore();
+		    cout << "Your record is found,";
+		    do{
+			cout<<" I'm now opening your file,,,.\nReady!\nPlease enter your note ,when you finish enter stop word in a single line :";
+			string newNote,newnote="";
 			getline(cin, newNote);
-			Note note(newNote);
+			if(newNote!="stop"){
+                newnote+=newNote;
+                newnote+="\n";
+                while(newNote!="stop"){
+                   newnote+=newNote;
+			       newnote+="\n";
+                   getline(cin, newNote);
+
+			}
+			}
+			Note note(newnote);
 			ofstream File;
 			File.open(fullName, ios_base::app);//ios_base::app use to overwrite the note into the file
 			File << note.toStringNote();
 			File.close();
-		}
-	}
-	cout << "If you want to add new note again please press: 1\n"
+				cout << "If you want to add new note again please press: 1\n"
 			<< "If you want to go back press: 2 \n";
 
-		int choice;		cin >> choice;
-		if (choice == 1){
-            system("cls");
-			addNewNote(2,fullName);
+				cin >> choice;
 
+            system("cls");
+
+
+
+
+			}while(choice=='1');
 		}
+	}
+
            system("cls");
 
 }
@@ -329,7 +342,7 @@ void printAllNotes()
 
 int main()
 {
-	int userChoice; // to control what is the option to user need to move it
+	char userChoice; // to control what is the option to user need to move it
 	do
 	{
 		printUserMenu();
@@ -337,7 +350,7 @@ int main()
 		cin >> userChoice;
 		switch (userChoice)
 		{
-		case 1:
+		case '1':
 			{
 				/*
 				This option let the user to add new user
@@ -351,7 +364,7 @@ int main()
 				pressEnter();
 			}
 			break;
-		case 2:
+		case '2':
 			{
 				/*
 				This option let the user to add new note
@@ -360,11 +373,11 @@ int main()
 				*/
 				system("cls");
 				system("color 70");
-				addNewNote(1,"");
+				addNewNote("");
 				pressEnter();
 			}
 			break;
-		case 3:
+		case '3':
 			{
 				system("cls");
 				system("color 70");
@@ -372,7 +385,7 @@ int main()
 				pressEnter();
 			}
 			break;
-		case 4:
+		case '4':
 			break;
 		default:
 			{
@@ -382,6 +395,6 @@ int main()
 			}
 		}
 		system("cls");
-	} while (userChoice != 4);
+	} while (userChoice != '4');
 	return 0;
 }
