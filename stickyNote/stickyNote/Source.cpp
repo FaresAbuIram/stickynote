@@ -108,6 +108,7 @@ public:
 	bool askPassword(string userName)
 	{
 		string enteredUserPassword ;
+		system("cls");
 		cout << "Please enter your password: ";
 		cin.get();
 		enteredUserPassword = hiddenInputLine();
@@ -134,16 +135,36 @@ public:
 	*/
 	string hiddenInputLine()
 	{
-		char c=' ';
+		char c;
 		string hiddenInput="";
+		string pass="";
+        c = _getch();
+
 		while (c!=13) /* ENTER KEY */
 		{
-			c=getch();
-			if (c!=13)
-			{
-				hiddenInput+=c;
-				cout<<"*";
+			if(c==8){
+                if(pass.size()==0){
+                    hiddenInput="";
+                    pass="";
+                }
+                else
+                {
+                hiddenInput.resize(hiddenInput.size()-1);
+                pass.resize(pass.size()-1);
+                cout<<pass;
+                }
 			}
+			else{
+                hiddenInput+=c;
+				pass+="*";
+				cout<<pass;
+
+			}
+			 c= _getch();
+             system("cls");
+            cout << "Please enter your password: ";
+
+
 		}
 		cout << endl;
 		return hiddenInput;
@@ -172,6 +193,15 @@ void addNewUser()
 	string lastName;				cin >> lastName;
 
 	string fullName = firstName + " " + lastName;
+	if(fullName.find("?")!=string::npos||fullName.find("/")!=string::npos||fullName.find("\\")!=string::npos||fullName.find("|")!=string::npos||fullName.find("*")!=string::npos||fullName.find("<")!=string::npos||fullName.find(">")!=string::npos||fullName.find(":")!=string::npos||fullName.find("\"")!=string::npos)
+         {
+         cout<<"A file name can't contain any of the following characters :\n"
+            <<"\\/:*?\"<>|\n";
+            system("pause");
+
+         }
+
+     else{
 	ifstream inUserFile (fullName);
 
 	if (!inUserFile) // there is no file have the same user name
@@ -185,6 +215,9 @@ void addNewUser()
 	}
 	else // user name was used
 		cout << "\n" << fullName << " was used!\n please try another name or write your notes directly!\n";
+    }
+
+
 }
 /**
 This class doesn't have data members. It just work as a functions collector
@@ -243,11 +276,14 @@ public:
 */
 void addNewNote(string fullNames)//"integer n"  to choose if you want to enter a new note in a the same file and "fullnames" the same file you want to add new note to it
 {
-    string firstName, lastName;
 
 	//user's full name
 	cout << "Let's add a new note ... \n";
-	cout << "Please enter your full name first:  "; cin >> firstName >> lastName;
+	cout << "Please let me know your first name: ";
+	string firstName;				cin >> firstName;
+
+	cout << "now please enter your last name: ";
+	string lastName;				cin >> lastName;
 
 
 	string fullName = firstName + " " + lastName ;
@@ -266,7 +302,7 @@ void addNewNote(string fullNames)//"integer n"  to choose if you want to enter a
 		{
 		    cout << "Your record is found,";
 		    do{
-			cout<<" I'm now opening your file,,,.\nReady!\nPlease enter your note ,when you finish enter stop word in a single line :";
+			cout<<" I'm now opening your file,,,.\nReady!\nPlease enter your note ,when you finish enter \" stop \" in a single line :";
 			string newNote,newnote="";
 			getline(cin, newNote);
 			if(newNote!="stop"){
@@ -310,10 +346,12 @@ void addNewNote(string fullNames)//"integer n"  to choose if you want to enter a
 void printAllNotes()
 {
 
-	cout << "Retrieve your notes? Absolutely! Please let know your full name first: ";
+	cout << "Retrieve your notes? Absolutely!";
+	cout << "Please let me know your first name: ";
+	string firstName;				cin >> firstName;
 
-	string firstName , lastName;
-	cin >> firstName >> lastName;
+	cout << "now please enter your last name: ";
+	string lastName;				cin >> lastName;
 
 	string fullName = firstName + " " + lastName;
 	ifstream inUserFile (fullName);
