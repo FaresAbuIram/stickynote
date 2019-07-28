@@ -60,9 +60,9 @@ public:
 		string userPassword , verifyPassword ;
 		cin.get();
 		cout << "Please enter your password: ";
-		userPassword = hiddenInputLine();
+		userPassword = hiddenInputLine(1);
 		cout << "Please enter it again: ";
-		verifyPassword = hiddenInputLine();
+		verifyPassword = hiddenInputLine(2);
 
 		if (userPassword == verifyPassword)
 		{
@@ -78,8 +78,10 @@ public:
 				<< "If you want to go back press *2 \n";
 
 			int choice;		cin >> choice;
-			if (choice == 1)
+			if (choice == 1){
+                    system("cls");
 				return checkWithAssigningPassword (userName);
+			}
 			else
 				return false;
 		}
@@ -105,13 +107,13 @@ public:
 	That is a boolean function takes one string parameter which represent user name
 	and it asks user to enter user's password. If the password correct it returns true
 	*/
-	bool askPassword(string userName)
+	bool askPassword(string userName,int n)
 	{
 		string enteredUserPassword ;
 		system("cls");
 		cout << "Please enter your password: ";
 		cin.get();
-		enteredUserPassword = hiddenInputLine();
+		enteredUserPassword = hiddenInputLine(n);
 
 		if (enteredUserPassword == getUserPassword (userName))
 			return true;
@@ -123,7 +125,7 @@ public:
 		char choice;		cin >> choice;
 		if (choice == '1'){
                  system("cls");
-			return askPassword (userName);
+			return askPassword (userName,1);
 		}
 		else
 			return false;
@@ -133,7 +135,7 @@ public:
 	This string returned function has no parameter. It will receive a hidden string from a user
 	(It shows on the screen stars instead of entered character)
 	*/
-	string hiddenInputLine()
+	string hiddenInputLine(int n)
 	{
 		char c;
 		string hiddenInput="";
@@ -162,7 +164,10 @@ public:
 			}
 			 c= _getch();
              system("cls");
+
             cout << "Please enter your password: ";
+             if(n!=1)
+                cout<<"\nPlease enter it again: ";
 
 
 		}
@@ -206,6 +211,7 @@ void addNewUser()
 
 	if (!inUserFile) // there is no file have the same user name
 	{
+	    system("cls");
 		Password* userPasswoed = new Password();//pointer to class Password
 		if (userPasswoed->checkWithAssigningPassword(fullName))  // to generate a password and to check if that proccess done
 		{
@@ -298,7 +304,7 @@ void addNewNote(string fullNames)//"integer n"  to choose if you want to enter a
 	{
 	    char choice=2;
 		Password* userPassword = new Password();//pointer to class Password
-		if (userPassword -> askPassword(fullName))//if the password correct or not
+		if (userPassword -> askPassword(fullName,1))//if the password correct or not
 		{
 		    cout << "Your record is found,";
 		    do{
@@ -363,8 +369,9 @@ void printAllNotes()
 	else // user name was found
 	{
 		Password* userPassword = new Password();//pointer to class Password
-		if (userPassword -> askPassword(fullName))//if the password correct or not
+		if (userPassword -> askPassword(fullName,1))//if the password correct or not
 		{
+		    system("cls");
 			cout << "Found it!\n"
 				<< "Here are your stored notes:\n"
 				<< "-------------\n";
