@@ -40,6 +40,7 @@ void pressEnter()
 	do
 	{
 		cout << "Press Enter to return to main menu : ";
+		cin.ignore();
 		cin.get(Enter);
 	}while(Enter!='\n');
 }
