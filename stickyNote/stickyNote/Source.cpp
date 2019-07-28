@@ -299,6 +299,7 @@ void addNewNote(string fullNames)//"integer n"  to choose if you want to enter a
 	{
 		cout << "Oh! Sorry the user name was not found, please check the name again and if this is your first time here,"
 			<< "please go ahead and create a new user from the main menu ..." << endl;
+			system("pause");
 	}
 	else
 	{
