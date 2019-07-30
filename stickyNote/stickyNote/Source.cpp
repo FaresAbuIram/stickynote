@@ -185,6 +185,7 @@ void addNewUser()
 	else // user name was used
 		cout << "\n" << fullName << " was used!\n please try another name or write your notes directly!\n";
 }
+
 /**
 This class doesn't have data members. It just work as a functions collector
 to add new note to the user's file by enter user's name and correct password
@@ -223,6 +224,7 @@ public:
 		//constructure was take note as  a parameters
 		this->note = note;
 	}
+
    /**
 	That is a  function have no parameters . It  return current date , time and note of user as string
 */
