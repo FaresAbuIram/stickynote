@@ -261,7 +261,6 @@ void addNewNote()
 		{
 			cout << "Your record is found, I'm now opening your file,,,.\nReady!\nPlease enter your note :";
 			string newNote;
-			cin.ignore();
 			getline(cin, newNote);
 			Note note(newNote);
 			ofstream File;
@@ -280,7 +279,7 @@ void addNewNote()
 void printAllNotes()
 {
 
-	cout << "Retrieve your notes? Absolutely! Please let know your full name first: ";
+	cout << "Retrieve your notes? \nAbsolutely! \nPlease let know your full name first: ";
 
 	string firstName , lastName;
 	cin >> firstName >> lastName;
