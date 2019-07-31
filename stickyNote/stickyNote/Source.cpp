@@ -53,7 +53,7 @@ class Password
 public:
 
 	/**
-	Boolean function takes one string argument "User Name" and it asks the user to enter a password twice
+	Boolean function takes one string argument "User Name" and it asks the user to enter a password twice 
 	then the function will stored password and user in "UserName and Password" file
 	*/
 	bool checkWithAssigningPassword (string userName)
@@ -61,15 +61,15 @@ public:
 		string userPassword , verifyPassword ;
 		cin.get();
 		cout << "Please enter your password: ";
-		userPassword = hiddenInputLine(1);
+		userPassword = hiddenInputLine();
 		cout << "Please enter it again: ";
-		verifyPassword = hiddenInputLine(2);
+		verifyPassword = hiddenInputLine();
 
 		if (userPassword == verifyPassword)
 		{
 			ofstream file;
 			file.open("UserName and Password", ios_base::app); //ios_base::app use to overwrite the note into the file
-			file << userName << endl << userPassword << endl;
+			file << userName << endl << userPassword << endl;	
 			return true;
 		}
 		else
@@ -79,10 +79,8 @@ public:
 				<< "If you want to go back press *2 \n";
 
 			int choice;		cin >> choice;
-			if (choice == 1){
-                    system("cls");
+			if (choice == 1)
 				return checkWithAssigningPassword (userName);
-			}
 			else
 				return false;
 		}
@@ -105,16 +103,15 @@ public:
 	}
 
 	/**
-	That is a boolean function takes one string parameter which represent user name
+	That is a boolean function takes one string parameter which represent user name 
 	and it asks user to enter user's password. If the password correct it returns true
 	*/
-	bool askPassword(string userName,int n)
+	bool askPassword(string userName)
 	{
 		string enteredUserPassword ;
-		system("cls");
 		cout << "Please enter your password: ";
 		cin.get();
-		enteredUserPassword = hiddenInputLine(n);
+		enteredUserPassword = hiddenInputLine();
 
 		if (enteredUserPassword == getUserPassword (userName))
 			return true;
@@ -123,11 +120,9 @@ public:
 			<< "If you want to try again please press: 1\n"
 			<< "If you want to go back press: 2 \n";
 
-		char choice;		cin >> choice;
-		if (choice == '1'){
-                 system("cls");
-			return askPassword (userName,1);
-		}
+		int choice;		cin >> choice;
+		if (choice == 1)
+			return askPassword (userName);
 		else
 			return false;
 	}
@@ -136,41 +131,18 @@ public:
 	This string returned function has no parameter. It will receive a hidden string from a user
 	(It shows on the screen stars instead of entered character)
 	*/
-	string hiddenInputLine(int n)
+	string hiddenInputLine()
 	{
-		char c;
+		char c=' ';
 		string hiddenInput="";
-		string pass="";
-        c = _getch();
-
 		while (c!=13) /* ENTER KEY */
 		{
-			if(c==8){
-                if(pass.size()==0){
-                    hiddenInput="";
-                    pass="";
-                }
-                else
-                {
-                hiddenInput.resize(hiddenInput.size()-1);
-                pass.resize(pass.size()-1);
-                cout<<pass;
-                }
+			c=getch();
+			if (c!=13)
+			{
+				hiddenInput+=c;
+				cout<<"*";
 			}
-			else{
-                hiddenInput+=c;
-				pass+="*";
-				cout<<pass;
-
-			}
-			 c= _getch();
-             system("cls");
-
-            cout << "Please enter your password: ";
-             if(n!=1)
-                cout<<"\nPlease enter it again: ";
-
-
 		}
 		cout << endl;
 		return hiddenInput;
@@ -199,33 +171,25 @@ void addNewUser()
 	string lastName;				cin >> lastName;
 
 	string fullName = firstName + " " + lastName;
-	if(fullName.find("?")!=string::npos||fullName.find("/")!=string::npos||fullName.find("\\")!=string::npos||fullName.find("|")!=string::npos||fullName.find("*")!=string::npos||fullName.find("<")!=string::npos||fullName.find(">")!=string::npos||fullName.find(":")!=string::npos||fullName.find("\"")!=string::npos)
-         {
-         cout<<"A file name can't contain any of the following characters :\n"
-            <<"\\/:*?\"<>|\n";
-            system("pause");
-
-         }
-
-     else{
 	ifstream inUserFile (fullName);
 
 	if (!inUserFile) // there is no file have the same user name
 	{
-	    system("cls");
 		Password* userPasswoed = new Password();//pointer to class Password
+
 		if (userPasswoed->checkWithAssigningPassword(fullName))  // to generate a password and to check if that proccess done
 		{
 			ofstream outUserFile (fullName); // just to open new file have the same name of user
-			cout << fullName << " is added successfully\n";
+			if (inUserFile) // the file was opened
+				cout << fullName << " is added successfully\n";
+			else
+				cout << "You can't use any of these symbols in user name:\t \\ / : * \" < > |\n ";
 		}
 	}
 	else // user name was used
 		cout << "\n" << fullName << " was used!\n please try another name or write your notes directly!\n";
-    }
-
-
 }
+
 /**
 This class doesn't have data members. It just work as a functions collector
 to add new note to the user's file by enter user's name and correct password
@@ -264,6 +228,7 @@ public:
 		//constructure was take note as  a parameters
 		this->note = note;
 	}
+
    /**
 	That is a  function have no parameters . It  return current date , time and note of user as string
 */
@@ -281,68 +246,33 @@ public:
 	That is a void function doesn't have parameters. It receives two string which represent first and last name,
 	then it add new note for user inside his file
 */
-void addNewNote(string fullNames)//"integer n"  to choose if you want to enter a new note in a the same file and "fullnames" the same file you want to add new note to it
+void addNewNote()
 {
-
-	//user's full name
+	string firstName, lastName;//user's full name
 	cout << "Let's add a new note ... \n";
-	cout << "Please let me know your first name: ";
-	string firstName;				cin >> firstName;
-
-	cout << "now please enter your last name: ";
-	string lastName;				cin >> lastName;
-
-
+	cout << "Please enter your full name first:  "; cin >> firstName >> lastName;
 	string fullName = firstName + " " + lastName ;
-
 	ifstream file(fullName);
 	if (!file)
 	{
-		cout << "Oh! Sorry the user name was not found, please check the name again and if this is your first time here,"
-			<< "please go ahead and create a new user from the main menu ..." << endl;
+		cout << "Oh! Sorry the user name was not found, \nplease check the name again and if this is your first time here,"
+			<< "\nplease go ahead and create a new user from the main menu ..." << endl;
 	}
 	else
 	{
-	    char choice=2;
 		Password* userPassword = new Password();//pointer to class Password
-		if (userPassword -> askPassword(fullName,1))//if the password correct or not
+		if (userPassword -> askPassword(fullName))//if the password correct or not
 		{
-		    cout << "Your record is found,";
-		    do{
-			cout<<" I'm now opening your file,,,.\nReady!\nPlease enter your note ,when you finish enter \" stop \" in a single line :";
-			string newNote,newnote="";
+			cout << "Your record is found, I'm now opening your file,,,.\nReady!\nPlease enter your note :";
+			string newNote;
 			getline(cin, newNote);
-			if(newNote!="stop"){
-                newnote+=newNote;
-                newnote+="\n";
-                while(newNote!="stop"){
-                   newnote+=newNote;
-			       newnote+="\n";
-                   getline(cin, newNote);
-
-			}
-			}
-			Note note(newnote);
+			Note note(newNote);
 			ofstream File;
 			File.open(fullName, ios_base::app);//ios_base::app use to overwrite the note into the file
 			File << note.toStringNote();
 			File.close();
-				cout << "If you want to add new note again please press: 1\n"
-			<< "If you want to go back press: 2 \n";
-
-				cin >> choice;
-
-            system("cls");
-
-
-
-
-			}while(choice=='1');
 		}
 	}
-
-           system("cls");
-
 }
 
 // This function will implement the third option in main menu
@@ -353,12 +283,10 @@ void addNewNote(string fullNames)//"integer n"  to choose if you want to enter a
 void printAllNotes()
 {
 
-	cout << "Retrieve your notes? Absolutely!";
-	cout << "Please let me know your first name: ";
-	string firstName;				cin >> firstName;
+	cout << "Retrieve your notes? \nAbsolutely! \nPlease let know your full name first: ";
 
-	cout << "now please enter your last name: ";
-	string lastName;				cin >> lastName;
+	string firstName , lastName;
+	cin >> firstName >> lastName;
 
 	string fullName = firstName + " " + lastName;
 	ifstream inUserFile (fullName);
@@ -370,9 +298,8 @@ void printAllNotes()
 	else // user name was found
 	{
 		Password* userPassword = new Password();//pointer to class Password
-		if (userPassword -> askPassword(fullName,1))//if the password correct or not
+		if (userPassword -> askPassword(fullName))//if the password correct or not
 		{
-		    system("cls");
 			cout << "Found it!\n"
 				<< "Here are your stored notes:\n"
 				<< "-------------\n";
@@ -388,7 +315,7 @@ void printAllNotes()
 
 int main()
 {
-	char userChoice; // to control what is the option to user need to move it
+	int userChoice; // to control what is the option to user need to move it
 	do
 	{
 		printUserMenu();
@@ -396,7 +323,7 @@ int main()
 		cin >> userChoice;
 		switch (userChoice)
 		{
-		case '1':
+		case 1:
 			{
 				/*
 				This option let the user to add new user
@@ -410,7 +337,7 @@ int main()
 				pressEnter();
 			}
 			break;
-		case '2':
+		case 2:
 			{
 				/*
 				This option let the user to add new note
@@ -419,11 +346,11 @@ int main()
 				*/
 				system("cls");
 				system("color 70");
-				addNewNote("");
+				addNewNote();
 				pressEnter();
 			}
 			break;
-		case '3':
+		case 3:
 			{
 				system("cls");
 				system("color 70");
@@ -431,7 +358,7 @@ int main()
 				pressEnter();
 			}
 			break;
-		case '4':
+		case 4:
 			break;
 		default:
 			{
@@ -441,6 +368,6 @@ int main()
 			}
 		}
 		system("cls");
-	} while (userChoice != '4');
+	} while (userChoice != 4);
 	return 0;
 }
